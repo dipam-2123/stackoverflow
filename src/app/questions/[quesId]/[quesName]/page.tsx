@@ -63,7 +63,7 @@ const Page = async ({ params }: { params: { quesId: string; quesName: string } }
                     author: {
                         $id: author.$id,
                         name: author.name,
-                        reputation: author.prefs.reputation,
+                        reputation: author.prefs?.reputation ?? 0,
                     },
                 };
             })
@@ -99,7 +99,7 @@ const Page = async ({ params }: { params: { quesId: string; quesName: string } }
                             author: {
                                 $id: author.$id,
                                 name: author.name,
-                                reputation: author.prefs.reputation,
+                                reputation: author.prefs?.reputation ?? 0,
                             },
                         };
                     })
@@ -113,7 +113,7 @@ const Page = async ({ params }: { params: { quesId: string; quesName: string } }
                     author: {
                         $id: author.$id,
                         name: author.name,
-                        reputation: author.prefs.reputation,
+                        reputation: author.prefs?.reputation ?? 0,
                     },
                 };
             })
@@ -173,7 +173,7 @@ const Page = async ({ params }: { params: { quesId: string; quesName: string } }
                         <picture>
                             <img
                                 src={
-                                    storage.getFilePreview(
+                                    storage.getFileView(
                                         questionAttachmentBucket,
                                         question.attachmentId
                                     ).href
@@ -209,7 +209,7 @@ const Page = async ({ params }: { params: { quesId: string; quesName: string } }
                                     {author.name}
                                 </Link>
                                 <p>
-                                    <strong>{author.prefs.reputation}</strong>
+                                    <strong>{author.prefs?.reputation ?? 0}</strong>
                                 </p>
                             </div>
                         </div>

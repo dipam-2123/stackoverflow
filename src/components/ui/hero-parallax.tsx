@@ -32,7 +32,9 @@ export const HeroParallax = ({
         springConfig
     );
     const rotateX = useSpring(useTransform(scrollYProgress, [0, 0.2], [15, 0]), springConfig);
-    const opacity = useSpring(useTransform(scrollYProgress, [0, 0.2], [0.2, 1]), springConfig);
+    // Starts fully transparent so the cards don't overlap the hero header at
+    // the top of the page — they fade in as the user scrolls down.
+    const opacity = useSpring(useTransform(scrollYProgress, [0, 0.2], [0, 1]), springConfig);
     const rotateZ = useSpring(useTransform(scrollYProgress, [0, 0.2], [20, 0]), springConfig);
     const translateY = useSpring(
         useTransform(scrollYProgress, [0, 0.2], [-700, 500]),

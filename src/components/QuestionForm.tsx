@@ -29,7 +29,6 @@ const LabelInputContainer = ({
                 className
             )}
         >
-            <Meteors number={30} />
             {children}
         </div>
     );
@@ -49,7 +48,6 @@ const QuestionForm = ({ question }: { question?: Models.Document }) => {
     const [formData, setFormData] = React.useState({
         title: String(question?.title || ""),
         content: String(question?.content || ""),
-        authorId: user?.$id,
         tags: new Set((question?.tags || []) as string[]),
         attachment: null as File | null,
     });
@@ -99,7 +97,7 @@ const QuestionForm = ({ question }: { question?: Models.Document }) => {
         const response = await databases.createDocument(db, questionCollection, ID.unique(), {
             title: formData.title,
             content: formData.content,
-            authorId: formData.authorId,
+            authorId: user?.$id,
             tags: Array.from(formData.tags),
             attachmentId: storageResponse.$id,
         });
@@ -129,7 +127,7 @@ const QuestionForm = ({ question }: { question?: Models.Document }) => {
         const response = await databases.updateDocument(db, questionCollection, question.$id, {
             title: formData.title,
             content: formData.content,
-            authorId: formData.authorId,
+            authorId: user?.$id,
             tags: Array.from(formData.tags),
             attachmentId: attachmentId,
         });
@@ -141,7 +139,7 @@ const QuestionForm = ({ question }: { question?: Models.Document }) => {
         e.preventDefault();
 
         // didn't check for attachment because it's optional in updating
-        if (!formData.title || !formData.content || !formData.authorId) {
+        if (!formData.title || !formData.content || !user?.$id) {
             setError(() => "Please fill out all fields");
             return;
         }
@@ -161,7 +159,11 @@ const QuestionForm = ({ question }: { question?: Models.Document }) => {
     };
 
     return (
-        <form className="space-y-4" onSubmit={submit}>
+        <div className="relative">
+            <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+                <Meteors number={30} />
+            </div>
+            <form className="space-y-4" onSubmit={submit}>
             {error && (
                 <LabelInputContainer>
                     <div className="text-center">
@@ -328,7 +330,8 @@ const QuestionForm = ({ question }: { question?: Models.Document }) => {
             >
                 {question ? "Update" : "Publish"}
             </button>
-        </form>
+            </form>
+        </div>
     );
 };
 

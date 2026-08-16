@@ -1,10 +1,10 @@
-# StackFlow — A Stack Overflow–Inspired Q&A Platform
+# RiverFlow — A Stack Overflow–Inspired Q&A Platform
 
-StackFlow is a full-stack question-and-answer platform inspired by Stack Overflow, built with Next.js 14 and Appwrite. It lets users register, ask questions, post answers, vote on content, comment, and search across the platform — with a markdown-first editor and a clean, themeable UI.
+RiverFlow is a full-stack question-and-answer platform inspired by Stack Overflow, built with Next.js 14 and Appwrite. It lets users register, ask questions, post answers, vote on content, comment, and search across the platform — with a markdown-first editor and a clean, themeable UI.
 
 ## Overview
 
-The goal of StackFlow was to build a production-style Q&A community app end to end: authentication, a relational-style data model on top of Appwrite's document database, role-based actions (author-only edit/delete), voting and reputation-style aggregation, and a responsive UI with light/dark themes. It's built as a single Next.js app using the App Router, with both the frontend and lightweight backend API routes (answers, comments, votes) living in the same codebase.
+The goal of RiverFlow was to build a production-style Q&A community app end to end: authentication, a relational-style data model on top of Appwrite's document database, role-based actions (author-only edit/delete), voting and reputation-style aggregation, and a responsive UI with light/dark themes. It's built as a single Next.js app using the App Router, with both the frontend and lightweight backend API routes (answers, comments, votes) living in the same codebase.
 
 ## Features
 
@@ -103,17 +103,27 @@ The app will be available at `http://localhost:3000`. On first run, the app prov
 
 ## Screenshots
 
-<!-- Add screenshots to docs/screenshots/ and reference them below, e.g.: -->
-<!-- ![Home](docs/screenshots/01-home.png) -->
+### Home
+![Home](docs/screenshots/01-home.png)
 
-| Page | Screenshot |
-|---|---|
-| Home | _add screenshot_ |
-| Questions list | _add screenshot_ |
-| Question detail (answers, votes, comments) | _add screenshot_ |
-| Ask question (markdown editor) | _add screenshot_ |
-| User profile | _add screenshot_ |
-| Login / Register | _add screenshot_ |
+Landing page with the app hero, a one-line pitch, and a direct "Ask a question" call-to-action. The top nav (Home, Questions, Profile, Logout) is available site-wide once a user is authenticated.
+
+### Questions list
+![Questions list](docs/screenshots/02-questions.png)
+
+The `/questions` route — every question in the platform, each showing vote count, answer count, tags, author, and how long ago it was asked. Includes a search bar to filter questions and pagination for larger result sets. This is the main entry point for browsing the community's content.
+
+### Ask a question
+![Ask a question](docs/screenshots/03-ask-question.png)
+
+The question submission form: a title field, a full markdown editor (bold, headings, links, quotes, code blocks, images, lists, tables) for the question body, an optional image attachment upload, and a tag input with suggestions. Submitting writes a new document to the questions collection in Appwrite.
+
+### User profile
+![User profile](docs/screenshots/04-profile.png)
+
+A public profile page for each user (`/users/[userId]/[userSlug]`), showing their display name, join date, and last activity, with tabs to drill into their Reputation, Questions asked, and Answers given. This is the same view every user gets when visiting their own or another member's profile.
+
+*(Login/register and question-detail pages follow the same structure — add screenshots for those the same way if you'd like fuller coverage.)*
 
 ## Build More Features on Top of This
 

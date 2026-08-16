@@ -68,7 +68,7 @@ const Page = async ({
                         totalVotes: votes.total,
                         author: {
                             $id: author.$id,
-                            reputation: author.prefs.reputation,
+                            reputation: author.prefs?.reputation ?? 0,
                             name: author.name,
                         },
                     };

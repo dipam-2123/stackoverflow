@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { persist } from "zustand/middleware";
 
-import {AppwriteException, ID, Models} from "appwrite"
+import {AppwriteException, ID, Models, OAuthProvider} from "appwrite"
 import { account } from "@/models/client/config";
 
 
@@ -35,6 +35,7 @@ interface IAuthStore {
     success: boolean;
     error?: AppwriteException| null
   }>
+  loginWithOAuth(provider: "google" | "github"): void
   logout(): Promise<void>
 }
 
@@ -54,10 +55,21 @@ export const useAuthStore = create<IAuthStore>()(
       async verfiySession() {
         try {
           const session = await account.getSession("current")
-          set({session})
+          let user = await account.get<UserPrefs>()
+
+          // OAuth signups never go through login(), so seed reputation here.
+          if (!user.prefs?.reputation) {
+            await account.updatePrefs<UserPrefs>({reputation: 0})
+            user = await account.get<UserPrefs>()
+          }
+
+          set({session, user})
 
         } catch (error) {
+          // Session is invalid/expired — clear the persisted user so the UI
+          // doesn't keep showing a logged-in state that Appwrite rejects.
           console.log(error)
+          set({session: null, jwt: null, user: null})
         }
       },
 
@@ -102,11 +114,24 @@ export const useAuthStore = create<IAuthStore>()(
         }
       },
 
+      loginWithOAuth(provider: "google" | "github") {
+        // Appwrite handles the OAuth flow via a full-page redirect. On success
+        // the user lands back on "/" with a session cookie already set; on
+        // failure they're sent back to the login page.
+        const origin = window.location.origin
+
+        account.createOAuth2Session(
+          provider === "google" ? OAuthProvider.Google : OAuthProvider.Github,
+          `${origin}/`,
+          `${origin}/login`
+        )
+      },
+
       async logout() {
         try {
           await account.deleteSessions()
           set({session: null, jwt: null, user: null})
-          
+
         } catch (error) {
           console.log(error)
         }

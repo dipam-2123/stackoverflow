@@ -30,6 +30,18 @@ export default function NumberTicker({
             }, delay * 1000);
     }, [motionValue, isInView, delay, value, direction]);
 
+    // Seed the initial text. Without this a value of 0 renders as an empty
+    // span, because the spring never fires a "change" event when animating
+    // from 0 to 0.
+    useEffect(() => {
+        if (ref.current) {
+            ref.current.textContent = Intl.NumberFormat("en-US").format(
+                direction === "down" ? value : 0
+            );
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     useEffect(
         () =>
             springValue.on("change", latest => {

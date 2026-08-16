@@ -39,7 +39,7 @@ const Notification = ({ user }: { user: Models.User<UserPrefs> }) => {
                     <p className="text-sm font-normal dark:text-white/60">
                         <span>Reputation</span>
                         <span className="mx-1">·</span>
-                        <span className="text-xs text-gray-500">{user.prefs.reputation}</span>
+                        <span className="text-xs text-gray-500">{user.prefs?.reputation ?? 0}</span>
                     </p>
                 </div>
             </div>
