@@ -108,22 +108,25 @@ The app will be available at `http://localhost:3000`. On first run, the app prov
 
 Landing page with the app hero, a one-line pitch, and a direct "Ask a question" call-to-action. The top nav (Home, Questions, Profile, Logout) is available site-wide once a user is authenticated.
 
+### Login
+![Login](docs/screenshots/02-login.png)
+
+Email/password sign-in backed by Appwrite Auth, plus OAuth sign-in with Google and GitHub. Sessions are held in a global Zustand store and validated against Appwrite on every page load, so an expired session logs the user out rather than failing silently on writes.
+
 ### Questions list
-![Questions list](docs/screenshots/02-questions.png)
+![Questions list](docs/screenshots/03-questions.png)
 
 The `/questions` route — every question in the platform, each showing vote count, answer count, tags, author, and how long ago it was asked. Includes a search bar to filter questions and pagination for larger result sets. This is the main entry point for browsing the community's content.
 
 ### Ask a question
-![Ask a question](docs/screenshots/03-ask-question.png)
+![Ask a question](docs/screenshots/04-ask-question.png)
 
 The question submission form: a title field, a full markdown editor (bold, headings, links, quotes, code blocks, images, lists, tables) for the question body, an optional image attachment upload, and a tag input with suggestions. Submitting writes a new document to the questions collection in Appwrite.
 
 ### User profile
-![User profile](docs/screenshots/04-profile.png)
+![User profile](docs/screenshots/05-profile.png)
 
 A public profile page for each user (`/users/[userId]/[userSlug]`), showing their display name, join date, and last activity, with tabs to drill into their Reputation, Questions asked, and Answers given. This is the same view every user gets when visiting their own or another member's profile.
-
-*(Login/register and question-detail pages follow the same structure — add screenshots for those the same way if you'd like fuller coverage.)*
 
 ## Build More Features on Top of This
 
